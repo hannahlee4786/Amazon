@@ -16,20 +16,28 @@ std::string convToLower(std::string src)
 std::set<std::string> parseStringToWords(string rawWords)
 {
     std::set<std::string> words;
-    int size = rawWords.std::size();
+    int size = rawWords.size();
     int idx = 0;
-    while (idx < size) {
-        if (std::ispunct(rawWord[idx])) {
-            if (current != "") {
-                set.insert(current);
+    string current = "";
+
+    while(idx < size) {
+        if (std::ispunct(rawWords[idx]) || rawWords[idx] == ' ') {
+            if (!current.empty() && current.size() >= 2) {
+                words.insert(current);
             }
             current = "";
         }
         else {
-            current += rawWord[idx];
+            current += rawWords[idx];
         }
         idx++;
     }
+
+    // Insert last word if not empty
+    if (!current.empty() && current.size() >= 2) {
+        words.insert(current);
+    }
+
     return words;
 }
 
