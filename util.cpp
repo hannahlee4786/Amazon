@@ -2,6 +2,7 @@
 #include <sstream>
 #include <cctype>
 #include <algorithm>
+#include <string>
 #include "util.h"
 
 using namespace std;
@@ -15,30 +16,33 @@ std::string convToLower(std::string src)
     to a set of words based on the criteria given in the assignment **/
 std::set<std::string> parseStringToWords(string rawWords)
 {
-    std::set<std::string> words;
-    int size = rawWords.size();
-    int idx = 0;
-    string current = "";
+  std::set<std::string> words;
+  int size = rawWords.size();
+  int idx = 0;
+  string current = "";
 
-    while(idx < size) {
-        if (std::ispunct(rawWords[idx]) || rawWords[idx] == ' ') {
-            if (!current.empty() && current.size() >= 2) {
-                words.insert(current);
-            }
-            current = "";
-        }
-        else {
-            current += rawWords[idx];
-        }
-        idx++;
+  while(idx < size) {
+    // Check if character is punctuation or space
+    if (std::ispunct(rawWords[idx]) || rawWords[idx] == ' ') {
+      // Check if current string is empty and length is 2+
+      if (!current.empty() && current.size() >= 2) {
+        current = convToLower(current);
+        words.insert(current); // Add word to set
+      }
+      current = ""; // Empty the current string
     }
-
-    // Insert last word if not empty
-    if (!current.empty() && current.size() >= 2) {
-        words.insert(current);
+    else {
+      current += rawWords[idx]; // Add character to current
     }
+    idx++;
+   }
 
-    return words;
+   // Insert last word if not empty
+   if (!current.empty() && current.size() >= 2) {
+      current = convToLower(current);
+      words.insert(current);
+   }
+  return words;
 }
 
 /**************************************************
